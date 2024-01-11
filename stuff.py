@@ -1,62 +1,59 @@
 import pygame
 import sys
+	
 
-pygame.init()
 
 WIDTH, HEIGHT = 1536, 960
 BG = (50, 50, 50)
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
 
-class SpriteSheet():
-	def __init__(self, image):
-		self.sheet = image
+#level
+lvl_map = ('background.png', (1000, 900))#second half is map size
 
-	def get_image(self, frame, width, height, scale, colour):
-		image = pygame.Surface((width, height))
-		image.blit(self.sheet, (0, 0), ((frame * width), 0, width, height))
-		image = pygame.transform.scale(image, (width * scale, height * scale))
-		image.set_colorkey(colour)
+#settings
+playerspeed = 1
 
-		return image
 
+def exit_proc():
+	pygame.quit()
+	quit()
+
+
+
+
+
+#main
+
+pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Spritesheets')
+pygame.display.set_caption('Game')
 
-sprite_image = pygame.image.load('test.png')
-sprite_sheet = SpriteSheet(sprite_image)
+
+# Set up the sprite
 sprite = pygame.sprite.Sprite()
-sprite.image = sprite_image
-# Set up the sprite's position
+sprite.image = pygame.image.load('test.png')
 sprite.rect = sprite.image.get_rect()
 sprite.rect.center = (WIDTH / 2, HEIGHT / 2)
 
-
-
-background_image = pygame.image.load('background.png').convert_alpha()
+#Background
 background = pygame.sprite.Sprite()
-background.image = background_image
-background.rect = sprite.image.get_rect()
-background.rect.center = (0, 0)
+background.image = pygame.image.load(lvl_map[0]).convert_alpha()
+background.rect = background.image.get_rect()
+background.rect.center = (WIDTH / 2, HEIGHT / 2)
 
-
-frame_0 = sprite_sheet.get_image(0, 24, 24, 3, BLACK)
-
-
-run = True
-while run:
+running = True
+while running:
 
 	#update background
 	screen.fill(BG)
 	screen.blit(background.image, background.rect)
 
-	#show frame image
-	screen.blit(frame_0, (sprite.rect.x, sprite.rect.y))
+	#show player image
+	screen.blit(sprite.image, sprite.rect)
+
 	#event handler
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
-			run = False
+			running = False
 
 	# Update the display
 	pygame.display.update()
@@ -65,18 +62,13 @@ while run:
 	keys = pygame.key.get_pressed()
 
 	if keys[pygame.K_a]: # Left arrow key
-		background.rect.x += 1
+		background.rect.x += playerspeed
 	if keys[pygame.K_d]: # Right arrow key
-		background.rect.x -= 1
+		background.rect.x -= playerspeed
 	if keys[pygame.K_w]: # Up arrow key
-		background.rect.y += 1
+		background.rect.y += playerspeed
 	if keys[pygame.K_s]: # Down arrow key
-		background.rect.y -= 1
+		background.rect.y -= playerspeed
 
-    # Keep the sprite within the screen
-	sprite.rect.x = max(sprite.rect.x, 0)
-	sprite.rect.x = min(sprite.rect.x, WIDTH - sprite.rect.width)
-	sprite.rect.y = max(sprite.rect.y, 0)
-	sprite.rect.y = min(sprite.rect.y, HEIGHT - sprite.rect.height)
 
-pygame.quit()
+exit_proc()
