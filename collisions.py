@@ -1,4 +1,4 @@
-#I added an image nammed block i want to use as a collision block to try and get sprite to collide with it and stop moving pls help code the collisions
+#janky collisions now added with a enemy
 
 import pygame
 import sys
@@ -30,7 +30,7 @@ sprite.rect.center = (WIDTH / 2, HEIGHT / 2)
 
 #collisionblock
 collide = pygame.sprite.Sprite()
-collide.image = pygame.image.load('block.png')
+collide.image = pygame.image.load('enemy.png')
 collide.rect = collide.image.get_rect()
 collide.rect.center = (WIDTH / 3, HEIGHT / 3)
 
@@ -49,6 +49,9 @@ while running:
 	
 	#show player image
     screen.blit(sprite.image, sprite.rect)
+
+    if collide.rect.colliderect(sprite.rect):
+         pygame.quit()
 	
 	#event handler
     for event in pygame.event.get():
@@ -74,3 +77,4 @@ while running:
         collide.rect.y -= playerspeed
 
 pygame.quit()
+       
