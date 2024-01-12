@@ -17,8 +17,17 @@ def exit_proc():
 	pygame.quit()
 	quit()
 
+class mkpos():
+	x = 0
+	y = 0
+	def __init__(self, xi, yi):
+		x = xi
+		y = yi
 
-
+class player():
+	def __init__(self, x, y):
+		self.pos = mkpos(x, y)
+	
 
 
 #main
@@ -33,6 +42,7 @@ sprite = pygame.sprite.Sprite()
 sprite.image = pygame.image.load('test.png')
 sprite.rect = sprite.image.get_rect()
 sprite.rect.center = (WIDTH / 2, HEIGHT / 2)
+
 
 #Background
 background = pygame.sprite.Sprite()
